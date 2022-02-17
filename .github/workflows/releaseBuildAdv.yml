@@ -9,11 +9,12 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  buildWindows:
-    #needs: testRunner
+  # When building with mono, you can build to any target platform with ubuntu as the build server.
+  # If IL2CPP is used, the build server needs to be the same as the target plattform. E.g targetPlatform: StandaloneWindows64, runs-on: windows-latest
+  buildMono:
+    #needs: testRunner # check game.ci for how to do testrunners
     name: Build for ${{ matrix.targetPlatform }}
-    runs-on: ubuntu-latest # for mono builds
-    #runs-on: windows-latest # for il2cpp use target platform as build server
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -21,6 +22,7 @@ jobs:
           - myProjectName
         targetPlatform:
           - StandaloneWindows64
+          - StandaloneLinux64
 
     steps:
       - name: Checkout Files
